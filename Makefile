@@ -32,9 +32,12 @@ optinterp2:	optinterp2.o parser.o utils.o
 optinterp3:	optinterp3.o parser.o utils.o
 	$(LK) -o $@ $^
 
+simplejit:	simplejit.o jit_utils.o parser.o utils.o
+	$(LK) -o $@ $^
+
 .PHONY: test-mandelbrot test-factor
 
-BF=./optinterp3
+BF=./simplejit
 BF_OPT=--verbose
 
 test-mandelbrot:
