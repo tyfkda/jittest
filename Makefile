@@ -1,9 +1,6 @@
 
 .PHONY:	all
 
-SRCS=main.c
-OBJS=$(SRCS:%.c=%.o)
-
 CC=gcc
 CPP=g++
 LK=g++
@@ -11,13 +8,11 @@ LK=g++
 COPT=-std=c99 -Wall -Wextra -Werror -O2
 CPPOPT=-std=c++0x -Wall -Wextra -Werror -O2
 
-all:	main
+all:
+	# Please specify target
 
 clean:
 	rm -f main $(OBJS)
-
-main:	$(OBJS)
-	$(LK) -o $@ $^
 
 .c.o:
 	$(CC) -c $(COPT) $<
