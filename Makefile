@@ -28,10 +28,22 @@ main:	$(OBJS)
 simpleinterp:	simpleinterp.o parser.o utils.o
 	$(LK) -o $@ $^
 
+optinterp:	optinterp.o parser.o utils.o
+	$(LK) -o $@ $^
+
+optinterp2:	optinterp2.o parser.o utils.o
+	$(LK) -o $@ $^
+
+optinterp3:	optinterp3.o parser.o utils.o
+	$(LK) -o $@ $^
+
 .PHONY: test-mandelbrot test-factor
 
+BF=./optinterp3
+BF_OPT=--verbose
+
 test-mandelbrot:
-	./simpleinterp --verbose bf-programs/mandelbrot.bf
+	$(BF) $(BF_OPT) bf-programs/mandelbrot.bf
 
 test-factor:
-	echo 179424691 | ./simpleinterp --verbose bf-programs/factor.bf
+	echo 179424691 | $(BF) $(BF_OPT) bf-programs/factor.bf
