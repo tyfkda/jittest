@@ -38,9 +38,12 @@ simplejit:	simplejit.o jit_utils.o parser.o utils.o
 simpleasmjit:	simpleasmjit.o parser.o utils.o
 	$(LK) -o $@ $^ -lasmjit
 
+optasmjit:	optasmjit.o parser.o utils.o
+	$(LK) -o $@ $^ -lasmjit
+
 .PHONY: test-mandelbrot test-factor
 
-BF=./simpleasmjit
+BF=./optasmjit
 BF_OPT=--verbose
 
 test-mandelbrot:
