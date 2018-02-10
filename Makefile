@@ -6,7 +6,7 @@ CPP=g++
 LK=g++
 
 COPT=-std=c99 -Wall -Wextra -Werror -O2
-CPPOPT=-std=c++0x -Wall -Wextra -Werror -O2
+CPPOPT=-std=c++11 -Wall -Wextra -Werror -O2
 
 all:
 	# Please specify target
@@ -32,9 +32,18 @@ optinterp2:	optinterp2.o parser.o utils.o
 optinterp3:	optinterp3.o parser.o utils.o
 	$(LK) -o $@ $^
 
+simplejit:	simplejit.o jit_utils.o parser.o utils.o
+	$(LK) -o $@ $^
+
+simpleasmjit:	simpleasmjit.o parser.o utils.o
+	$(LK) -o $@ $^ -lasmjit
+
+optasmjit:	optasmjit.o parser.o utils.o
+	$(LK) -o $@ $^ -lasmjit
+
 .PHONY: test-mandelbrot test-factor
 
-BF=./optinterp3
+BF=./optasmjit
 BF_OPT=--verbose
 
 test-mandelbrot:
