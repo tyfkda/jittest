@@ -146,8 +146,7 @@ void simplejit(const Program& p, bool verbose) {
 
   // JittedFunc is the C++ type for the JIT function emitted here. The emitted
   // function is callable from C++ and follows the x64 System V ABI.
-  //using JittedFunc = void (*)(void);
-  typedef void (*JittedFunc)(void);
+  using JittedFunc = void (*)(void);
 
   JittedFunc func = (JittedFunc)jit_program.program_memory();
   func();
