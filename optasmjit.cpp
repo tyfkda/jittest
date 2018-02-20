@@ -36,8 +36,8 @@ struct BfOp {
   BfOp(BfOpKind kind_param, int64_t argument_param)
       : kind(kind_param), argument(argument_param) {}
 
-  BfOpKind kind = BfOpKind::INVALID_OP;
-  int64_t argument = 0;
+  BfOpKind kind;
+  int64_t argument;
 };
 
 const char* BfOpKind_name(BfOpKind kind) {

@@ -12,7 +12,7 @@ all:
 	# Please specify target
 
 clean:
-	rm -f main $(OBJS)
+	rm -f main *.o
 
 .c.o:
 	$(CC) -c $(COPT) $<
