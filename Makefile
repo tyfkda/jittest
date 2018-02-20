@@ -5,8 +5,8 @@ CC=gcc
 CPP=g++
 LK=g++
 
-COPT=-std=c99 -Wall -Wextra -Werror -O2
-CPPOPT=-std=c++11 -Wall -Wextra -Werror -O2
+COPT=-std=c99 -Wall -Wextra -Werror -O2 -fno-operator-names
+CPPOPT=-std=c++11 -Wall -Wextra -Werror -O2 -fno-operator-names
 
 all:
 	# Please specify target
@@ -41,9 +41,12 @@ simpleasmjit:	simpleasmjit.o parser.o utils.o
 optasmjit:	optasmjit.o parser.o utils.o
 	$(LK) -o $@ $^ -lasmjit
 
+simplexbyakjit:	simplexbyakjit.o parser.o utils.o
+	$(LK) -o $@ $^
+
 .PHONY: test-mandelbrot test-factor
 
-BF=./optasmjit
+BF=./simplexbyakjit
 BF_OPT=--verbose
 
 test-mandelbrot:

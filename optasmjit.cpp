@@ -2,7 +2,6 @@
 //
 // Eli Bendersky [http://eli.thegreenplace.net]
 // This code is in the public domain.
-#include <iomanip>
 #include <fstream>
 #include <iomanip>
 #include <stack>
