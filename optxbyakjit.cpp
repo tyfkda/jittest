@@ -1,4 +1,4 @@
-// A simple JIT for BF, using the Xbyak library. No optimizations.
+// An optimized JIT for BF, using the Xbyak library.
 //
 // Based on optasmjit by Eli Bendersky [http://eli.thegreenplace.net]
 
