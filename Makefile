@@ -29,7 +29,7 @@ optinterp:	optinterp.o parser.o utils.o
 optinterp2:	optinterp2.o parser.o utils.o
 	$(LK) -o $@ $^
 
-optinterp3:	optinterp3.o parser.o utils.o
+optinterp3:	optinterp3.o optutils.o parser.o utils.o
 	$(LK) -o $@ $^
 
 simplejit:	simplejit.o jit_utils.o parser.o utils.o
@@ -38,13 +38,13 @@ simplejit:	simplejit.o jit_utils.o parser.o utils.o
 simpleasmjit:	simpleasmjit.o parser.o utils.o
 	$(LK) -o $@ $^ -lasmjit
 
-optasmjit:	optasmjit.o parser.o utils.o
+optasmjit:	optasmjit.o optutils.o parser.o utils.o
 	$(LK) -o $@ $^ -lasmjit
 
 simplexbyakjit:	simplexbyakjit.o parser.o utils.o
 	$(LK) -o $@ $^
 
-optxbyakjit:	optxbyakjit.o parser.o utils.o
+optxbyakjit:	optxbyakjit.o optutils.o parser.o utils.o
 	$(LK) -o $@ $^
 
 .PHONY: test-mandelbrot test-factor
