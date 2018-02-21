@@ -12,6 +12,8 @@
 
 constexpr int MEMORY_SIZE = 30000;
 
+namespace {
+
 enum class BfOpKind {
   INVALID_OP = 0,
   INC_PTR,
@@ -41,16 +43,16 @@ const char* BfOpKind_name(BfOpKind kind) {
     return ",";
   case BfOpKind::WRITE_STDOUT:
     return ".";
-  case BfOpKind::JUMP_IF_DATA_ZERO:
-    return "[";
-  case BfOpKind::JUMP_IF_DATA_NOT_ZERO:
-    return "]";
   case BfOpKind::LOOP_SET_TO_ZERO:
     return "s";
   case BfOpKind::LOOP_MOVE_PTR:
     return "m";
   case BfOpKind::LOOP_MOVE_DATA:
     return "d";
+  case BfOpKind::JUMP_IF_DATA_ZERO:
+    return "[";
+  case BfOpKind::JUMP_IF_DATA_NOT_ZERO:
+    return "]";
   case BfOpKind::INVALID_OP:
     return "x";
   }
@@ -209,6 +211,8 @@ std::vector<BfOp> translate_program(const Program& p) {
   return ops;
 }
 
+} // namespace
+
 void optinterp3(const Program& p, bool verbose) {
   // Initialize state.
   std::vector<uint8_t> memory(MEMORY_SIZE, 0);
@@ -234,8 +238,7 @@ void optinterp3(const Program& p, bool verbose) {
   size_t ops_size = ops.size();
   for (size_t pc = 0; pc < ops_size; ++pc) {
     BfOp op = ops[pc];
-    BfOpKind kind = op.kind;
-    switch (kind) {
+    switch (op.kind) {
     case BfOpKind::INC_PTR:
       dataptr += op.argument;
       break;

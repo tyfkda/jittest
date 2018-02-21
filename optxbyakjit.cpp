@@ -33,14 +33,6 @@ enum class BfOpKind {
   JUMP_IF_DATA_NOT_ZERO
 };
 
-struct BfOp {
-  BfOp(BfOpKind kind_param, int64_t argument_param)
-      : kind(kind_param), argument(argument_param) {}
-
-  BfOpKind kind;
-  int64_t argument;
-};
-
 const char* BfOpKind_name(BfOpKind kind) {
   switch (kind) {
   case BfOpKind::INC_PTR:
@@ -71,6 +63,14 @@ const char* BfOpKind_name(BfOpKind kind) {
   return nullptr;
 }
 
+struct BfOp {
+  BfOp(BfOpKind kind_param, int64_t argument_param)
+      : kind(kind_param), argument(argument_param) {}
+
+  BfOpKind kind;
+  int64_t argument;
+};
+
 // Optimizes a loop that starts at loop_start (the opening JUMP_IF_DATA_ZERO).
 // The loop runs until the end of ops (implicitly there's a back-jump after the
 // last op in ops).
@@ -99,7 +99,6 @@ std::vector<BfOp> optimize_loop(const std::vector<BfOp>& ops,
         ops[loop_start + 3].kind == BfOpKind::INC_DATA &&
         ops[loop_start + 1].argument == 1 &&
         ops[loop_start + 3].argument == 1) {
-      std::string s;
 
       if (ops[loop_start + 2].kind == BfOpKind::INC_PTR &&
           ops[loop_start + 4].kind == BfOpKind::DEC_PTR &&
