@@ -36,7 +36,7 @@ public class BfUtil {
     int c = Console.Read();
     if (c == -1)  // EOF
       c = 0;
-    return (char)c;
+    return (char)(c & 255);
   }
 
   public static void PutInt(int i) {

@@ -77,65 +77,65 @@ public class BfGen {
 
     Stack<BracketLabels> openBracketStack = new Stack<BracketLabels>();
 
-    generator.DeclareLocal(typeof(int));  // local0: pc
+    LocalBuilder dataptr = generator.DeclareLocal(typeof(int));  // local0: pc
 
     generator.Emit(OpCodes.Ldc_I4_0);
-    generator.Emit(OpCodes.Stloc_0);  // pc = 0
+    generator.Emit(OpCodes.Stloc, dataptr);  // dataptr = 0
 
     for (int pc = 0; pc < instructions.Length; ++pc) {
       char c = instructions[pc];
       switch (c) {
       case '>':
+        generator.Emit(OpCodes.Ldloc, dataptr);
         generator.Emit(OpCodes.Ldc_I4_1);
-        generator.Emit(OpCodes.Ldloc_0);
         generator.Emit(OpCodes.Add);
-        generator.Emit(OpCodes.Stloc_0);  // ++pc
+        generator.Emit(OpCodes.Stloc, dataptr);  // ++dataptr
         break;
       case '<':
-        generator.Emit(OpCodes.Ldc_I4_M1);
-        generator.Emit(OpCodes.Ldloc_0);
-        generator.Emit(OpCodes.Add);
-        generator.Emit(OpCodes.Stloc_0);  // --pc
+        generator.Emit(OpCodes.Ldloc, dataptr);
+        generator.Emit(OpCodes.Ldc_I4_1);
+        generator.Emit(OpCodes.Sub);
+        generator.Emit(OpCodes.Stloc, dataptr);  // --dataptr
         break;
       case '+':
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldc_I4_1);
+        generator.Emit(OpCodes.Ldloc, dataptr);
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
+        generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
+        generator.Emit(OpCodes.Ldelem_I4);  // memory[dataptr]
+        generator.Emit(OpCodes.Ldc_I4_1);
         generator.Emit(OpCodes.Add);
-        generator.Emit(OpCodes.Stelem_I4);  // memory[pc] += 1
+        generator.Emit(OpCodes.Stelem_I4);  // memory[dataptr] += 1
         break;
       case '-':
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldc_I4_M1);
+        generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
-        generator.Emit(OpCodes.Add);
+        generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
+        generator.Emit(OpCodes.Ldelem_I4);  // memory[dataptr]
+        generator.Emit(OpCodes.Ldc_I4_1);
+        generator.Emit(OpCodes.Sub);
         generator.Emit(OpCodes.Stelem_I4);  // memory[pc] -= 1
         break;
       case '.':
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
-        generator.EmitCall(OpCodes.Call, putcharMI, null);  // putchar(memory[pc])
+        generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
+        generator.Emit(OpCodes.Ldelem_I4);  // memory[dataptr]
+        generator.EmitCall(OpCodes.Call, putcharMI, null);  // putchar(memory[dataptr])
         break;
       case ',':
         generator.Emit(OpCodes.Ldarg_1);  // memory
-        generator.Emit(OpCodes.Ldloc_0);  // pc
+        generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
         generator.EmitCall(OpCodes.Call, getcharMI, null);  // getchar()
-        generator.Emit(OpCodes.Stelem_I4);  // memory[pc] = getchar()
+        generator.Emit(OpCodes.Stelem_I4);  // memory[dataptr] = getchar()
         break;
       case '[':
         {
           Label openLabel = generator.DefineLabel();
           Label closeLabel = generator.DefineLabel();
           generator.Emit(OpCodes.Ldarg_1);  // memory
-          generator.Emit(OpCodes.Ldloc_0);  // pc
-          generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
+          generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
+          generator.Emit(OpCodes.Ldelem_I4);  // memory[dataptr]
           generator.Emit(OpCodes.Ldc_I4, 255);
           generator.Emit(OpCodes.And);
           generator.Emit(OpCodes.Ldc_I4_0);  // 0
@@ -151,8 +151,8 @@ public class BfGen {
           }
           BracketLabels labels = openBracketStack.Pop();
           generator.Emit(OpCodes.Ldarg_1);  // memory
-          generator.Emit(OpCodes.Ldloc_0);  // pc
-          generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
+          generator.Emit(OpCodes.Ldloc, dataptr);  // dataptr
+          generator.Emit(OpCodes.Ldelem_I4);  // memory[dataptr]
           generator.Emit(OpCodes.Ldc_I4, 255);
           generator.Emit(OpCodes.And);
           generator.Emit(OpCodes.Ldc_I4_0);  // 0
