@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
@@ -70,11 +68,11 @@ public class BfGen {
 
     ILGenerator generator = simpleMethod.GetILGenerator();
 
-    MethodInfo putcharMI = typeof(BfJit).GetMethod("PutChar",
+    MethodInfo putcharMI = typeof(BfUtil).GetMethod("PutChar",
                                                     new Type[] {typeof(char)});
-    MethodInfo getcharMI = typeof(BfJit).GetMethod("GetChar",
+    MethodInfo getcharMI = typeof(BfUtil).GetMethod("GetChar",
                                                     new Type[] {});
-    MethodInfo putintMI = typeof(BfJit).GetMethod("PutInt",
+    MethodInfo putintMI = typeof(BfUtil).GetMethod("PutInt",
                                                   new Type[] {typeof(int)});
 
     Stack<BracketLabels> openBracketStack = new Stack<BracketLabels>();
@@ -185,46 +183,12 @@ public class BfJit {
       Environment.Exit(1);
     }
 
-    string bfCode = LoadProgram(args[0]);
+    string bfCode = BfUtil.LoadProgram(args[0]);
     //Console.WriteLine(bfCode);
 
     var gen = new BfGen();
     var program = gen.Gen(bfCode);
     byte[] memory = new byte[30000];
     program.Invoke(memory);
-  }
-
-  public static void PutChar(char c) {
-    Console.Write(c);
-  }
-
-  public static char GetChar() {
-    int c = Console.Read();
-    if (c == -1)  // EOF
-      c = 0;
-    return (char)c;
-  }
-
-  public static void PutInt(int i) {
-    Console.WriteLine("Putint[" + i + "]");
-  }
-
-  private static string LoadProgram(string fileName) {
-    var sr = new StreamReader(fileName, Encoding.GetEncoding("utf-8"));
-    string text = ParseFromStream(sr);
-    sr.Close();
-    return text;
-  }
-
-  private static string ParseFromStream(StreamReader sr) {
-    List<char> chars = new List<char>();
-    while (!sr.EndOfStream) {
-      int c = sr.Read();
-      if (c == '>' || c == '<' || c == '+' || c == '-' || c == '.' ||
-          c == ',' || c == '[' || c == ']') {
-        chars.Add((char)c);
-      }
-    }
-    return new String(chars.ToArray());
   }
 }
