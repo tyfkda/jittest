@@ -97,7 +97,7 @@ public class BfGen {
         generator.Emit(OpCodes.Stloc_0);  // ++pc
         break;
       case '<':
-        generator.Emit(OpCodes.Ldc_I4, -1);
+        generator.Emit(OpCodes.Ldc_I4_M1);
         generator.Emit(OpCodes.Ldloc_0);
         generator.Emit(OpCodes.Add);
         generator.Emit(OpCodes.Stloc_0);  // --pc
@@ -115,7 +115,7 @@ public class BfGen {
       case '-':
         generator.Emit(OpCodes.Ldarg_1);  // memory
         generator.Emit(OpCodes.Ldloc_0);  // pc
-        generator.Emit(OpCodes.Ldc_I4, -1);
+        generator.Emit(OpCodes.Ldc_I4_M1);
         generator.Emit(OpCodes.Ldarg_1);  // memory
         generator.Emit(OpCodes.Ldloc_0);  // pc
         generator.Emit(OpCodes.Ldelem_I4);  // memory[pc]
