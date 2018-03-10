@@ -83,9 +83,6 @@ public class BfGen {
     generator.Emit(OpCodes.Stloc_0);  // pc = 0
 
     for (int pc = 0; pc < instructions.Length; ++pc) {
-      //generator.Emit(OpCodes.Ldloc_0);  // pc
-      //generator.EmitCall(OpCodes.Call, putintMI, null);  // getchar()
-
       char c = instructions[pc];
       switch (c) {
       case '>':
@@ -150,8 +147,7 @@ public class BfGen {
       case ']':
         {
           if (openBracketStack.Count == 0) {
-            Console.Error.WriteLine($"Unmatched closing ']' at pc={pc}");
-            Environment.Exit(1);
+            BfUtil.DIE($"Unmatched closing ']' at pc={pc}");
           }
           BracketLabels labels = openBracketStack.Pop();
           generator.Emit(OpCodes.Ldarg_1);  // memory
@@ -179,8 +175,7 @@ public class BfGen {
 public class BfJit {
   public static void Main(string[] args) {
     if (args.Length < 1) {
-      Console.Error.WriteLine("argv < 1");
-      Environment.Exit(1);
+      BfUtil.DIE("argv < 1");
     }
 
     string bfCode = BfUtil.LoadProgram(args[0]);

@@ -23,6 +23,11 @@ public class BfUtil {
     return new string(chars.ToArray());
   }
 
+  public static void DIE(string message) {
+    Console.Error.WriteLine(message);
+    Environment.Exit(1);
+  }
+
   public static void PutChar(char c) {
     Console.Write(c);
   }
