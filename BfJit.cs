@@ -24,7 +24,7 @@ public class BfGen {
 
     TypeBuilder myType = newModule.DefineType(className, TypeAttributes.Public);
 
-    // Add a private field of type int (Int32).
+    // Add a private field
     FieldBuilder fbMemory = myType.DefineField("memory",
                                                typeof(char[]),
                                                FieldAttributes.Private);
@@ -34,6 +34,27 @@ public class BfGen {
     // Define constructor
     DefineConstructor(myType, fbMemory);
 
+    MethodBuilder simpleMethod = DefineInvokeMethod(myType, fbMemory);
+    myType.DefineMethodOverride(simpleMethod, typeof(IBfProgram).GetMethod("Invoke"));
+
+    myType.CreateType();
+
+    return newAssembly;
+  }
+
+  private void DefineConstructor(TypeBuilder myType, FieldBuilder fbMemory) {
+    ConstructorBuilder ctor = myType.DefineConstructor(MethodAttributes.Public,
+                                                       CallingConventions.Standard,
+                                                       new Type[] { typeof(char[]) });
+    ILGenerator generator = ctor.GetILGenerator();
+    generator.Emit(OpCodes.Ldarg_0);  // this
+    generator.Emit(OpCodes.Ldarg_1);  // argument
+    generator.Emit(OpCodes.Stfld, fbMemory);  // this.fbMemory = argument
+
+    generator.Emit(OpCodes.Ret);
+  }
+
+  private MethodBuilder DefineInvokeMethod(TypeBuilder myType, FieldBuilder fbMemory) {
     MethodBuilder simpleMethod = myType.DefineMethod("Invoke",
                                                      MethodAttributes.Public | MethodAttributes.Virtual,
                                                      typeof(void),  // returnType
@@ -64,23 +85,7 @@ public class BfGen {
     generator.EmitCall(OpCodes.Call, callbackMI, null);  // callback(local0)
 
     generator.Emit(OpCodes.Ret);
-
-    myType.DefineMethodOverride(simpleMethod, typeof(IBfProgram).GetMethod("Invoke"));
-
-    myType.CreateType();
-
-    return newAssembly;
-  }
-
-  private void DefineConstructor(TypeBuilder myType, FieldBuilder fbMemory) {
-    ConstructorBuilder ctor = myType.DefineConstructor(MethodAttributes.Public,
-                                                       CallingConventions.Standard,
-                                                       new Type[] { typeof(char[]) });
-    ILGenerator generator = ctor.GetILGenerator();
-    generator.Emit(OpCodes.Ldarg_0);  // this
-    generator.Emit(OpCodes.Ldarg_1);  // argument
-    generator.Emit(OpCodes.Stfld, fbMemory);  // this.fbMemory = argument
-    generator.Emit(OpCodes.Ret);
+    return simpleMethod;
   }
 }
 
