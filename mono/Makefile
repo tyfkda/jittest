@@ -21,7 +21,7 @@ BfOptJit.exe:	BfOptJit.cs BfUtil.cs
 BF=BfOptJit.exe
 
 test-mandelbrot:
-	mono $(BF) ../bf-programs/mandelbrot.bf
+	time mono $(BF) ../bf-programs/mandelbrot.bf
 
 test-factor:
-	echo 179424691 | mono $(BF) ../bf-programs/factor.bf
+	echo 179424691 | time mono $(BF) ../bf-programs/factor.bf

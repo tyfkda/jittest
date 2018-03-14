@@ -38,8 +38,4 @@ public class BfUtil {
       c = 0;
     return (char)(c & 255);
   }
-
-  public static void PutInt(int i) {
-    Console.WriteLine("Putint[" + i + "]");
-  }
 }

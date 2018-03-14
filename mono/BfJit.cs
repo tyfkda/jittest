@@ -72,8 +72,6 @@ public class BfGen {
                                                     new Type[] {typeof(char)});
     MethodInfo getcharMI = typeof(BfUtil).GetMethod("GetChar",
                                                     new Type[] {});
-    MethodInfo putintMI = typeof(BfUtil).GetMethod("PutInt",
-                                                  new Type[] {typeof(int)});
 
     Stack<BracketLabels> openBracketStack = new Stack<BracketLabels>();
 

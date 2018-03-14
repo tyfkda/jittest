@@ -98,16 +98,11 @@ public class BfGen {
                                                     new Type[] {typeof(char)});
     MethodInfo getcharMI = typeof(BfUtil).GetMethod("GetChar",
                                                     new Type[] {});
-    MethodInfo putintMI = typeof(BfUtil).GetMethod("PutInt",
-                                                  new Type[] {typeof(int)});
 
     Stack<BracketLabels> openBracketStack = new Stack<BracketLabels>();
 
     LocalBuilder dataptr = generator.DeclareLocal(typeof(int));  // local0: pc
     LocalBuilder tempptr = generator.DeclareLocal(typeof(int));  // local1: temporary
-
-      generator.Emit(OpCodes.Ldc_I4, 1234);
-      generator.EmitCall(OpCodes.Call, putintMI, null);
 
     generator.Emit(OpCodes.Ldc_I4_0);
     generator.Emit(OpCodes.Stloc, dataptr);  // dataptr = 0
