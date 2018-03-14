@@ -1,13 +1,13 @@
 *.o
 
 /.vagrant/
-/main
-/optinterp
-/optinterp2
-/optinterp3
-/simpleinterp
-/simplejit
-/simpleasmjit
-/optasmjit
-/simplexbyakjit
-/optxbyakjit
+/x86-64/main
+/x86-64/optinterp
+/x86-64/optinterp2
+/x86-64/optinterp3
+/x86-64/simpleinterp
+/x86-64/simplejit
+/x86-64/simpleasmjit
+/x86-64/optasmjit
+/x86-64/simplexbyakjit
+/x86-64/optxbyakjit
