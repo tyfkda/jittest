@@ -55,11 +55,11 @@ optdt:	optdt.o optutils.o parser.o utils.o
 
 .PHONY: test-mandelbrot test-factor
 
-BF=./optxbyakjit
+BF=./optasmjit
 BF_OPT=--verbose
 
 test-mandelbrot:
-	$(BF) $(BF_OPT) bf-programs/mandelbrot.bf
+	$(BF) $(BF_OPT) ../bf-programs/mandelbrot.bf
 
 test-factor:
-	echo 179424691 | $(BF) $(BF_OPT) bf-programs/factor.bf
+	echo 179424691 | $(BF) $(BF_OPT) ../bf-programs/factor.bf
