@@ -47,6 +47,12 @@ simplexbyakjit:	simplexbyakjit.o parser.o utils.o
 optxbyakjit:	optxbyakjit.o optutils.o parser.o utils.o
 	$(LK) -o $@ $^
 
+simpledt:	simpledt.o parser.o utils.o
+	$(LK) -o $@ $^
+
+optdt:	optdt.o optutils.o parser.o utils.o
+	$(LK) -o $@ $^
+
 .PHONY: test-mandelbrot test-factor
 
 BF=./optxbyakjit
